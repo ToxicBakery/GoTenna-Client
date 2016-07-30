@@ -1,0 +1,40 @@
+language: android
+
+sudo: false
+
+before_install:
+    - openssl aes-256-cbc -K $encrypted_fab005f50e5e_key -iv $encrypted_fab005f50e5e_iv -in maven.keystore.gpg.enc -out maven.keystore.gpg -d
+    - chmod +x gradlew
+
+env:
+    global:
+        - secure: "igP2MwEIu6YWthhUOATY2tBzzOPnRG3jY/ZCHaOd8b8Jg4xB18rropEv0SYsMjXnJ5219Lyl0zG/Cq//SWdBorRnbnrdloK+nqqID5CVTz8bR0X2+WMetweykLThbEgdSBl8GBgbUqyk9asNo2dhC4wM/J4oBybXHtyxuvw794RgHWgA+hatvKBAlcV5rinIHis+qIaiOtcEW4DQRCqhZIecZDoWVd33drcfnJNeGdpNXQNK1VXgaWycDfG+1g8H96dV5XRM0H7tZ1UoNQtu3CttRghnXWjZSfLk434fhTdyDC9WfGSXulxC4iiN3gksYTuugOhMyEBoC7ik4tD+Ed4fko5HM2iP/d0eUubtIXCJ4VH7hSM0avaQpG+TKLEAK6wGxaAeRFr1+b0hndUlZaK4G0e7eoyz2a6n0PZelK8y0akxOKC+RsRD+H3fM5CQlb7ZDN/hQZ1uVll8OopEfvgfjzYKA8G/FuMSPsz94Lf5dnxeVnKhWCxCDrZ6qYYshEUpbSP5hI3+xR+Pa2XrRl/lG99Mu8b4x8ENMyjtDHKNRMaA5aZATlW9gKSxh/YcOUN27c1vi8veG/1arqnNz0xc6mx7Cc7mlfNA+S+gGY+OLmbPLV41HEXZ/aJTvH+JKBerKbzQlNN2Dx8kklFhzoNJnFJ3IaWEurypmygMIIA="
+        - secure: "HDEU8p4fa1ZVl/RulsoSqr5pE8DHCOIUy1JsKcCAeuhdrC7Hl2X+v/H7fKNAj3C9wPggkuglfiBx2um3C7KRe6f27TraDAm3qIMoQZsRGoL8D3RCrlaeggqoha06LFk/pEj14ZBmnknrzyJ0uadUW21FPFqJF/uB33ioaxR1B3wAh+P16u1G904f78pFmBXiEIbs1rGCvCdv2J9y4ajr6HUVX5/aVv2Ar9gNYKbX0leqVlE6Im1Xgr+y/SdlBaH97rwtVmeOtjrRTmRKwgCXZ0Yacon/HflIegYi16VVwqc+asSrJAqSV+iLvnq2LE7IzPg6wneCTT+z4ozqleZx7keJZdrWTU3QBFoZhchHnBGBTXsSA+bu4ElRl/59tKuq75mvFWtqTqxwJtBOjpExzuORzxXMsgJnZRS6s+xAF2fxRJdjLzeQOMMtOdmr6VSUVa8qvQRzteGOG9uG2xPyYjyrOE/cEOWymeVXpxnmZ/XS3DQiOEbdXURjZZQN45iWYlnQQN97/cxF3Dw4YIqbcz30FNTqaFPKZVqF7u9fEpHt0EnHgU9Si2FpF0/P0A224bWBCZSkccURgqPyKIG1I9h5vy2ITS4aEGjlxFO2ZqXR2ZeLep9opoxw0VFCkH04Ds1AieO4toPSJLzFL5I576B3dLBV+LoLqFKvuRrjykI="
+        - secure: "dFyNot5q5JGhseQKHXQJDgJsk2wiUv0Q+zkZTBT5Mfc9A8TsnWJbbsDdLaTwobUBykQIqKCx8yZ8G8kJGK3rAxz7VLK2p+Ih+tihvmUHFYWr21z71S+70b+DWMMpmRQR7/RERRUHbqfMNCX8uk1TVs6TvEWoJTx6ylVseYiW6bn8cPAAeOAp6Z0BbzYoFssRGbjeYhSm6mZXYMCF6NxIXGFbZNsLVvsg0M1bva4nerojD9cJMcOtkGTFNc2qc3EmSGU2g/oDbyjw7nNpN8AhSyieyr6RFknG5cqHFRm534clQDhLtP/ovEqn9G61/o5Iau2nPfhgTwEJREQVXlYpn9LxamB12z6Mui4HlXSXZMaqqM+JYK1IrnZJr+ryRdivRFLjTWF3xgJUxX92IbfApPfLRWIOIraocEf1Q2i3p2BUZbyFn7aU9QWjk4wDhXosl6gplOIsi+9/9JrTBcehz+ExuDHR9PXZforAwa+Fwvy+/qEDdkLmAQI2Kx62fEFqrIQMKIm05gydTA4pxYNMb7C1DGjIphcWNgzeY4+oU/YCSROTD2iTPDvUOKsuA3AtmsPOfmBsniKy6JagpT+q/yFtQ3mmOQ7XuvrN7aUSaLxcZ5sfk/+EUxtYJU8+AbgbQiAw5H5VjKIOSyPeRRB86fCK7PoT1birOj5ikZRchAA="
+        - secure: "Va4/5nz3hEfI7pQ1RRwqZBPsakZcUMzHI7VdiMnX4e8uWrsOsuYoSM7iTWVRIZG/nrI1490vfTWvOYMR6ygnDLGeWnSSdBbQw8R0jxo43X4uu+xeUdFSK+Z8CQLIvjxu2W0QVd0awRRRL3CsfEZ0CfZADJBlFlYv9IqHm1B1dzuwBG9g2rqlLViHs13EzveAOqwa0UOpGmf4OsrL4/w3aQCHOQiDaLsYrE3lqZiZiNt+tfuuY8NEKxPolVjiqT/JNW+xoOgtIwlJxOx/R66fScS9tEe4+2pXPpl45hoBiom0jz1iivN9qsEaqvVwn+kZ9Hh9aZ+glwegvNrjpfX0mznzEH9Mw5/m6HCGwtoRSRDflz2cuFJw5ADuPFbjEkYyMDe/RbGTN1I5WTgAZpY+feOhfO8dAjB0aChQGgQwsV0K408C+0puYiSdoutUCJeNcTHaz65dKrR3Vb5JjJYNJAuesuwCKdOrjuIaeR9y1TJ9gSeAjvpNjVt753KLEY0gX3DHQqRXNnO73C7jj5MKDBeSzu5EDLsZFTEdx8//99NAEol3fyWEfWbtOdfnkXYxRviLuMW1oWvy3VUbjmTEWUmktV0A4ioOsm6AxQgCmHTAPcwKAV8n07KlxKZi5yWwW4bga0cIsFdBEYoxAikQ2RL6KjPp7p6fo8eSGS2xn7o="
+
+jdk:
+    - oraclejdk8
+
+android:
+  components:
+    - tools
+    - android-23
+    - build-tools-23.0.2
+    - extra-android-m2repository
+
+script:
+    - echo "Travis branch is $TRAVIS_BRANCH"
+    - echo "Travis branch is in pull request? $TRAVIS_PULL_REQUEST"
+    - echo "Travis tag $TRAVIS_TAG"
+    - echo -e "signing.keyId=${signing_keyId}" >> "gradle.properties"
+    - echo -e "signing.password=${signing_password}" >> "gradle.properties"
+    - echo -e "signing.secretKeyRingFile=../maven.keystore.gpg" >> "gradle.properties"
+    - gradle clean assemble check uploadArchives --continue --stacktrace
+
+install:
+    - true
+
+notifications:
+    email:
+        - toxicbakery@gmail.com
