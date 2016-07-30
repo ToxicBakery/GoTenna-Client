@@ -9,8 +9,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
 
     lintOptions {
         abortOnError false
@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "com.ToxicBakery.library.btle.gottena.app"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 24
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode 1
         versionName "1.0"
@@ -42,6 +42,8 @@ dependencies {
     compile "com.jakewharton.timber:timber:${rootProject.timber}"
     compile "info.android15.nucleus:nucleus:${rootProject.nucleus}"
     compile "info.android15.nucleus:nucleus-support-v7:${rootProject.nucleus}"
+    compile "io.reactivex:rxandroid:${rootProject.rxAndroid}"
+    compile "io.reactivex:rxjava:${rootProject.rxJava}"
 
     compile project(":library")
 

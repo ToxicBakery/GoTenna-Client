@@ -19,8 +19,9 @@ jdk:
 android:
   components:
     - tools
-    - android-23
-    - build-tools-23.0.2
+    - tools # install latest tools (https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
+    - android-24
+    - build-tools-24.0.1
     - extra-android-m2repository
 
 script:

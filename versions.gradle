@@ -4,12 +4,14 @@ project.ext.set('junit', '4.12')
 project.ext.set('mockito', '1.10.19')
 
 // Compile libs
-project.ext.set('androidSupport', '23.4.0')
+project.ext.set('androidSupport', '24.1.1')
 project.ext.set('btleScannerCompat', '1.0.44')
 project.ext.set('versions', '1.0.13')
 project.ext.set('dagger2', '2.5')
 project.ext.set('timber', '4.1.2')
 project.ext.set('nucleus', '4.0.0')
+project.ext.set('rxAndroid', '1.2.1')
+project.ext.set('rxJava', '1.1.8')
 
 // Provided libs
 project.ext.set('jsr250', '1.0')
