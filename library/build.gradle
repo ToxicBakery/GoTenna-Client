@@ -46,11 +46,12 @@ android {
 }
 
 dependencies {
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile "org.mockito:mockito-core:${rootProject.mockito}"
 
-    compile 'com.android.support:support-annotations:23.4.0'
-    compile 'com.ToxicBakery.android.version:versions:1.0.13'
-    compile 'com.ToxicBakery.library.btle.scanning:btle-Scanner-Compat:1.0.44'
+    compile "com.android.support:support-annotations:${rootProject.androidSupport}"
+    compile "com.ToxicBakery.android.version:versions:${rootProject.versions}"
+    compile "com.ToxicBakery.library.btle.scanning:btle-Scanner-Compat:${rootProject.btleScannerCompat}"
+    compile "com.jakewharton.timber:timber:${rootProject.timber}"
 }
 
 apply from: '../maven_push.gradle'

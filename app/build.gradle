@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 apply from: '../config/quality.gradle'
 
 repositories {
@@ -18,6 +19,7 @@ android {
         applicationId "com.ToxicBakery.library.btle.gottena.app"
         minSdkVersion 19
         targetSdkVersion 23
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode 1
         versionName "1.0"
     }
@@ -30,10 +32,21 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:${rootProject.junit}"
 
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.ToxicBakery.library.btle.scanning:btle-Scanner-Compat:1.0.44'
+    compile "com.android.support:support-v4:${rootProject.androidSupport}"
+    compile "com.android.support:appcompat-v7:${rootProject.androidSupport}"
+    compile "com.android.support:design:${rootProject.androidSupport}"
+    compile "com.android.support:recyclerview-v7:${rootProject.androidSupport}"
+    compile "com.ToxicBakery.library.btle.scanning:btle-Scanner-Compat:${rootProject.btleScannerCompat}"
+    compile "com.jakewharton.timber:timber:${rootProject.timber}"
+    compile "info.android15.nucleus:nucleus:${rootProject.nucleus}"
+    compile "info.android15.nucleus:nucleus-support-v7:${rootProject.nucleus}"
 
     compile project(":library")
+
+    // Dagger2
+    apt "com.google.dagger:dagger-compiler:${rootProject.dagger2}"
+    compile "com.google.dagger:dagger:${rootProject.dagger2}"
+    provided "javax.annotation:jsr250-api:${rootProject.jsr250}"
 }
