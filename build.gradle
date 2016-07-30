@@ -1,5 +1,6 @@
 
 buildscript {
+    System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
     repositories {
         mavenCentral()
         jcenter()
@@ -7,12 +8,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.1.2'
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
     }
 }
 
