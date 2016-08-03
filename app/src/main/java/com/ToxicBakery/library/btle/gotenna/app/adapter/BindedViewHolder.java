@@ -6,9 +6,9 @@ import android.view.View;
 /**
  * Holder implementation coupled to a data type.
  *
- * @param <Model> value type binded by this holder
+ * @param <M> value type binded by this holder
  */
-public abstract class BindedViewHolder<Model> extends RecyclerView.ViewHolder {
+public abstract class BindedViewHolder<M> extends RecyclerView.ViewHolder {
 
     /**
      * Create the holder with the given view.
@@ -24,6 +24,6 @@ public abstract class BindedViewHolder<Model> extends RecyclerView.ViewHolder {
      *
      * @param model to bind
      */
-    public abstract void bind(Model model);
+    public abstract void bind(M model);
 
 }

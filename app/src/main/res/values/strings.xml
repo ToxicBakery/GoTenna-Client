@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GoTennaClient</string>
+    <string name="scan_start">Start Scanning</string>
+    <string name="scan_stop">Stop Scanning</string>
 </resources>

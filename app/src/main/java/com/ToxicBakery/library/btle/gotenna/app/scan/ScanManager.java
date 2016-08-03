@@ -4,6 +4,7 @@ import android.support.annotation.MainThread;
 
 import com.ToxicBakery.library.btle.gotenna.IGoTennaScannerProvider;
 import com.ToxicBakery.library.btle.scanning.ILeScanBinder;
+import com.ToxicBakery.library.btle.scanning.ILeScanCallback;
 import com.ToxicBakery.library.btle.scanning.ScanStatusCode;
 
 import javax.inject.Inject;
@@ -13,17 +14,37 @@ import javax.inject.Singleton;
  * Manager for scan instances.
  */
 @Singleton
-public class ScanManager {
+public class ScanManager implements IScanCallbackRegistration {
 
     private final IGoTennaScannerProvider scannerProvider;
     private final IRegistrableLeScanCallback registrableLeScanCallback;
 
     private ILeScanBinder scanBinder;
 
+    /**
+     * Create the manager instance using the passed provider.
+     *
+     * @param scannerProvider provider to use for scanning
+     */
     @Inject
     ScanManager(IGoTennaScannerProvider scannerProvider) {
         this.scannerProvider = scannerProvider;
         registrableLeScanCallback = new RegistrableLeScanCallback();
+    }
+
+    @Override
+    public void registerCallback(ILeScanCallback leScanCallback) {
+        registrableLeScanCallback.registerCallback(leScanCallback);
+    }
+
+    @Override
+    public void unregisterCallback(ILeScanCallback leScanCallback) {
+        registrableLeScanCallback.unregisterCallback(leScanCallback);
+    }
+
+    @Override
+    public void clearResults() {
+        registrableLeScanCallback.clearResults();
     }
 
     /**

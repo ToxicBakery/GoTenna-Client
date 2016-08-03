@@ -1,5 +1,6 @@
 package com.ToxicBakery.library.btle.gotenna.app.adapter;
 
+import android.support.annotation.CheckResult;
 import android.support.annotation.IntRange;
 import android.support.annotation.MainThread;
 import android.support.v7.widget.RecyclerView;
@@ -9,11 +10,13 @@ import java.util.List;
 
 /**
  * Basic ArrayList adapter.
+ * @param <M> model
+ * @param <H> holder
  */
-public abstract class ArrayListAdapter<Model, Holder extends BindedViewHolder<Model>>
-        extends RecyclerView.Adapter<Holder> {
+public abstract class ArrayListAdapter<M, H extends BindedViewHolder<M>>
+        extends RecyclerView.Adapter<H> {
 
-    private final List<Model> modelList;
+    private final List<M> modelList;
 
     /**
      * Create the adapter using an array list.
@@ -23,8 +26,8 @@ public abstract class ArrayListAdapter<Model, Holder extends BindedViewHolder<Mo
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
-        Model model = getItemAt(position);
+    public void onBindViewHolder(H holder, int position) {
+        M model = getItemAt(position);
         holder.bind(model);
     }
 
@@ -40,7 +43,7 @@ public abstract class ArrayListAdapter<Model, Holder extends BindedViewHolder<Mo
      * @return stored model instance
      */
     @MainThread
-    public Model getItemAt(@IntRange(from = 0) int index) {
+    public M getItemAt(@IntRange(from = 0) int index) {
         return modelList.get(index);
     }
 
@@ -50,7 +53,7 @@ public abstract class ArrayListAdapter<Model, Holder extends BindedViewHolder<Mo
      * @param model to insert
      */
     @MainThread
-    public void addItem(Model model) {
+    public void addItem(M model) {
         modelList.add(model);
         notifyItemInserted(getItemCount() - 1);
     }
@@ -61,7 +64,8 @@ public abstract class ArrayListAdapter<Model, Holder extends BindedViewHolder<Mo
      * @param model to remove
      */
     @MainThread
-    public boolean removeItem(Model model) {
+    @CheckResult
+    public boolean removeItem(M model) {
         int index = modelList.indexOf(model);
         if (index >= 0) {
             modelList.remove(index);

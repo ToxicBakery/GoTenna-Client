@@ -19,22 +19,43 @@ public class AppModule {
 
     private final Application application;
 
+    /**
+     * Create the module for the given application
+     *
+     * @param application of this process
+     */
     public AppModule(Application application) {
         this.application = application;
     }
 
+    /**
+     * The application class instance for the process.
+     *
+     * @return application instance
+     */
     @Provides
     @Singleton
     Application providesApplication() {
         return application;
     }
 
+    /**
+     * Application context instance for the process.
+     *
+     * @return application context instance
+     */
     @Provides
     @Singleton
     Context providesContext() {
         return application;
     }
 
+    /**
+     * GoTenna scan provider for creating scan instances.
+     *
+     * @param context application context
+     * @return a configured scan provider
+     */
     @Provides
     @Singleton
     IGoTennaScannerProvider providesScanProvider(Context context) {

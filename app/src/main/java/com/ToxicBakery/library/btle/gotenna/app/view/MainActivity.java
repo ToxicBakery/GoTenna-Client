@@ -2,11 +2,13 @@ package com.ToxicBakery.library.btle.gotenna.app.view;
 
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ToxicBakery.library.btle.gotenna.app.R;
@@ -17,6 +19,7 @@ import com.ToxicBakery.library.btle.scanning.ScanResultCompat;
 
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusAppCompatActivity;
+import timber.log.Timber;
 
 /**
  * Launch activity for the application displaying.
@@ -25,6 +28,7 @@ import nucleus.view.NucleusAppCompatActivity;
 public class MainActivity extends NucleusAppCompatActivity<MainActivityPresenter> {
 
     private Adapter adapter;
+    private Button toggleScanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +43,51 @@ public class MainActivity extends NucleusAppCompatActivity<MainActivityPresenter
             recyclerView.setAdapter(adapter);
         }
 
-        findViewById(R.id.activity_main_toggle_scan)
-                .setOnClickListener(getPresenter().getToggleScanClickListener());
+        toggleScanButton = (Button) findViewById(R.id.activity_main_toggle_scan);
+        toggleScanButton.setOnClickListener(getPresenter().getToggleScanClickListener());
     }
 
+    /**
+     * Set scanning enabled.
+     *
+     * @param flag true to enable
+     */
+    public void setScanEnabled(boolean flag) {
+        toggleScanButton.setEnabled(flag);
+    }
+
+    /**
+     * Set the scan button text value.
+     *
+     * @param resId string id to display
+     */
+    public void setScanButton(@StringRes int resId) {
+        toggleScanButton.setText(resId);
+    }
+
+    /**
+     * Add a result to the adapter.
+     *
+     * @param scanResultCompat to add
+     */
+    public void onAddItem(ScanResultCompat scanResultCompat) {
+        adapter.addItem(scanResultCompat);
+    }
+
+    /**
+     * Remove a result from the adapter.
+     *
+     * @param scanResultCompat to remove
+     */
+    public void onRemoveItem(ScanResultCompat scanResultCompat) {
+        if (!adapter.removeItem(scanResultCompat)) {
+            Timber.e("Failed to remove unknown result: %s", scanResultCompat.toString());
+        }
+    }
+
+    /**
+     * Scan result adapter
+     */
     private static class Adapter extends ArrayListAdapter<ScanResultCompat, ViewHolder> {
 
         @Override
@@ -55,11 +100,19 @@ public class MainActivity extends NucleusAppCompatActivity<MainActivityPresenter
 
     }
 
+    /**
+     * Scan result view holder
+     */
     private static class ViewHolder extends BindedViewHolder<ScanResultCompat> {
 
         private final TextView textViewName;
         private final TextView textViewAddress;
 
+        /**
+         * Create the holder from the inflated view.
+         *
+         * @param itemView inflated scan result view
+         */
         public ViewHolder(View itemView) {
             super(itemView);
 

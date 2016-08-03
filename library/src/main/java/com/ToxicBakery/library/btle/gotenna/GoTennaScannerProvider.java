@@ -36,10 +36,20 @@ public class GoTennaScannerProvider implements IGoTennaScannerProvider {
         return LeDiscovery.startScanning(leScanCallback, scanConfiguration, filters);
     }
 
+    /**
+     * Create the scan configuration.
+     *
+     * @return scan config
+     */
     ILeScanConfiguration createScanConfiguration() {
         return new SimpleLeScanConfiguration(context);
     }
 
+    /**
+     * Create the scan filters for GoTenna devices.
+     *
+     * @return scan filters
+     */
     List<ScanFilter> createFilters() {
         return new LinkedList<>();
     }
