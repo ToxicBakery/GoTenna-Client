@@ -1,9 +1,14 @@
 package com.ToxicBakery.library.btle.gotenna;
 
+import android.annotation.TargetApi;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.os.Build;
+import android.os.ParcelUuid;
 import android.support.annotation.NonNull;
 
+import com.ToxicBakery.android.version.Is;
+import com.ToxicBakery.android.version.SdkVersion;
 import com.ToxicBakery.library.btle.scanning.ILeScanBinder;
 import com.ToxicBakery.library.btle.scanning.ILeScanCallback;
 import com.ToxicBakery.library.btle.scanning.ILeScanConfiguration;
@@ -50,8 +55,15 @@ public class GoTennaScannerProvider implements IGoTennaScannerProvider {
      *
      * @return scan filters
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     List<ScanFilter> createFilters() {
-        return new LinkedList<>();
+        List<ScanFilter> scanFilters = new LinkedList<>();
+        if (Is.greaterThanOrEqual(SdkVersion.LOLLIPOP)) {
+            scanFilters.add(new ScanFilter.Builder()
+                    .setServiceUuid(ParcelUuid.fromString(SERVICE_UUID.toString()))
+                    .build());
+        }
+        return scanFilters;
     }
 
 }

@@ -55,19 +55,31 @@ public class MainActivityPresenter extends Presenter<MainActivity> {
     protected void onTakeView(MainActivity mainActivity) {
         super.onTakeView(mainActivity);
 
-        boolean hasPermission = hasCourseLocationPermission();
-        mainActivity.setScanEnabled(hasPermission);
-
-        boolean isScanning = scanManager.isScanning();
-        mainActivity.setScanButton(isScanning ? R.string.scan_stop : R.string.scan_start);
+        present();
 
         // Request permission
-        if (!hasPermission) {
+        if (!hasCourseLocationPermission()) {
             ActivityCompat.requestPermissions(
                     mainActivity,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_PERMISSION);
         }
+    }
+
+    /**
+     * Update the UI
+     */
+    void present() {
+        MainActivity mainActivity = getView();
+        if (mainActivity == null) {
+            return;
+        }
+
+        boolean hasPermission = hasCourseLocationPermission();
+        mainActivity.setScanEnabled(hasPermission);
+
+        boolean isScanning = scanManager.isScanning();
+        mainActivity.setScanButton(isScanning ? R.string.scan_stop : R.string.scan_start);
     }
 
     /**
@@ -105,6 +117,7 @@ public class MainActivityPresenter extends Presenter<MainActivity> {
             @Override
             public void onClick(View v) {
                 scanManager.toggle();
+                present();
             }
         };
     }
