@@ -1,10 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'signing'
 apply from: '../config/quality.gradle'
+apply plugin: 'com.neenbedankt.android-apt'
 
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/releases"}
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
     maven { url "https://oss.sonatype.org/content/repositories/staging" }
 }
 
@@ -36,6 +39,7 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -46,12 +50,21 @@ android {
 }
 
 dependencies {
+    androidTestCompile "junit:junit:${rootProject.junit}"
     androidTestCompile "org.mockito:mockito-core:${rootProject.mockito}"
+    androidTestCompile "com.android.support.test:runner:${rootProject.supportTesting}"
+    androidTestCompile "com.android.support.test:rules:${rootProject.supportTesting}"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:${rootProject.espresso}"
+
+    testCompile "junit:junit:${rootProject.junit}"
 
     compile "com.android.support:support-annotations:${rootProject.androidSupport}"
     compile "com.ToxicBakery.android.version:versions:${rootProject.versions}"
     compile "com.ToxicBakery.library.btle.scanning:btle-Scanner-Compat:${rootProject.btleScannerCompat}"
     compile "com.jakewharton.timber:timber:${rootProject.timber}"
+
+    apt "com.google.auto.value:auto-value:${rootProject.autoValue}";
+    provided "com.google.auto.value:auto-value:${rootProject.autoValue}";
 }
 
 apply from: '../maven_push.gradle'

@@ -2,6 +2,8 @@
 // Testing
 project.ext.set('junit', '4.12')
 project.ext.set('mockito', '1.10.19')
+project.ext.set('supportTesting','0.5')
+project.ext.set('espresso','2.2.2')
 
 // Compile libs
 project.ext.set('androidSupport', '24.1.1')
@@ -12,6 +14,7 @@ project.ext.set('timber', '4.1.2')
 project.ext.set('nucleus', '4.0.0')
 project.ext.set('rxAndroid', '1.2.1')
 project.ext.set('rxJava', '1.1.8')
+project.ext.set('autoValue', '1.2')
 
 // Provided libs
 project.ext.set('jsr250', '1.0')
