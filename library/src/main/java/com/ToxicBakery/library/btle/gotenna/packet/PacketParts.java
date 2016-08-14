@@ -3,7 +3,7 @@ package com.ToxicBakery.library.btle.gotenna.packet;
 /**
  * Common elements of packets.
  */
-public class PacketParts {
+public final class PacketParts {
 
     /**
      * First byte of a message and 2nd to last.
@@ -29,5 +29,8 @@ public class PacketParts {
      * Maximum packet size limited by LE transmission buffer.
      */
     static final int PACKET_SIZE = 20;
+
+    private PacketParts() {
+    }
 
 }
