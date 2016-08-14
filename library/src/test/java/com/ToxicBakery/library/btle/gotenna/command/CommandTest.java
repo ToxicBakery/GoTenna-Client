@@ -12,19 +12,33 @@ public class CommandTest {
 
     @org.junit.Test
     public void testGetPriority() throws Exception {
-        Assert.assertEquals(Command.NORMAL_PRIORITY, Command.builder().priority(Command.NORMAL_PRIORITY).build().getPriority());
-        Assert.assertEquals(Command.HIGH_PRIORITY, Command.builder().priority(Command.HIGH_PRIORITY).build().getPriority());
+        Assert.assertEquals(Command.NORMAL_PRIORITY, buildCommand(Command.NORMAL_PRIORITY).getPriority());
+        Assert.assertEquals(Command.HIGH_PRIORITY, buildCommand(Command.HIGH_PRIORITY).getPriority());
     }
 
     @org.junit.Test
     public void testCompareTo() throws Exception {
         Queue<Command> commandQueue = new PriorityQueue<>();
-        commandQueue.add(Command.builder().priority(Command.NORMAL_PRIORITY).build());
-        commandQueue.add(Command.builder().priority(Command.HIGH_PRIORITY).build());
-        commandQueue.add(Command.builder().priority(Command.NORMAL_PRIORITY).build());
+        commandQueue.add(buildCommand(Command.NORMAL_PRIORITY));
+        commandQueue.add(buildCommand(Command.HIGH_PRIORITY));
+        commandQueue.add(buildCommand(Command.NORMAL_PRIORITY));
 
-        Command command = commandQueue.poll();
-        Assert.assertEquals(Command.HIGH_PRIORITY, command.getPriority());
+        Assert.assertEquals(Command.HIGH_PRIORITY, commandQueue.poll().getPriority());
+        Assert.assertEquals(Command.NORMAL_PRIORITY, commandQueue.poll().getPriority());
+        Assert.assertEquals(Command.NORMAL_PRIORITY, commandQueue.poll().getPriority());
+    }
+
+    /**
+     * Build a command instance with an empty payload.
+     *
+     * @param priority priority to test
+     * @return command with given priority
+     */
+    Command buildCommand(@CommandPriority int priority) {
+        return Command.builder()
+                .priority(priority)
+                .payload(new byte[0])
+                .build();
     }
 
 }

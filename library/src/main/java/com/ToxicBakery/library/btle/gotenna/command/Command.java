@@ -31,6 +31,13 @@ public abstract class Command implements Comparable<Command> {
     public abstract int getPriority();
 
     /**
+     * Get the entire command payload.
+     *
+     * @return command payload
+     */
+    public abstract byte[] getPayload();
+
+    /**
      * Builder for creating command instances.
      */
     @AutoValue.Builder
@@ -43,6 +50,14 @@ public abstract class Command implements Comparable<Command> {
          * @return the builder
          */
         public abstract Builder priority(@CommandPriority int priority);
+
+        /**
+         * Set the command message payload.
+         *
+         * @param payload message
+         * @return the builder
+         */
+        public abstract Builder payload(byte[] payload);
 
         /**
          * Build the command with the current builder values.
