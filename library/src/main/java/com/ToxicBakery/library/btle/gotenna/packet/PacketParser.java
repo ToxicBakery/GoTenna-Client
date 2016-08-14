@@ -8,25 +8,15 @@ import com.ToxicBakery.library.btle.gotenna.command.Command;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static com.ToxicBakery.library.btle.gotenna.packet.PacketParts.BYTE_END;
+import static com.ToxicBakery.library.btle.gotenna.packet.PacketParts.BYTE_MARKER;
+import static com.ToxicBakery.library.btle.gotenna.packet.PacketParts.BYTE_START;
+import static com.ToxicBakery.library.btle.gotenna.packet.PacketParts.DEFAULT_BUFFER_SIZE;
+
 /**
  * Reads a received packet as part of a command.
  */
 public class PacketParser implements IMessageParser {
-
-    /**
-     * First byte of a message and 2nd to last.
-     */
-    private static final byte BYTE_MARKER = 0x10;
-
-    /**
-     * Second byte of a message.
-     */
-    private static final byte BYTE_START = 0x02;
-
-    /**
-     * Last byte of a message.
-     */
-    private static final byte BYTE_END = 0x03;
 
     private final ByteArrayOutputStream outputStream;
 
@@ -38,7 +28,7 @@ public class PacketParser implements IMessageParser {
     public PacketParser() {
         // Create an initially small stream as most messages are only a few packets at 20 bytes each
         // FIXME this could likely avoid most or all GC if it was backed by a pool
-        outputStream = new ByteArrayOutputStream(512);
+        outputStream = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
     }
 
     /**

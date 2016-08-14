@@ -5,6 +5,9 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.support.annotation.NonNull;
+
+import com.ToxicBakery.library.btle.gotenna.command.Command;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -25,11 +28,13 @@ class GattCallback extends BluetoothGattCallback {
 
     private final IMessageParser messageParser;
     private final Queue<BluetoothGattDescriptor> descriptorWriteQueue;
+    private final CommandSendHolder commandSendHolder;
 
     private BluetoothGattCharacteristic characteristicKeepAlive;
     private BluetoothGattCharacteristic characteristicProtocolRev;
     private BluetoothGattCharacteristic characteristicRead;
     private BluetoothGattCharacteristic characteristicWrite;
+    private Command currentSendCommand;
     private int lastRssi;
     private int lastStatus;
     private int lastState;
@@ -38,11 +43,15 @@ class GattCallback extends BluetoothGattCallback {
     /**
      * Create the callback using the given parser for handling received messages.
      *
-     * @param messageParser handler for accepting received commands
+     * @param messageParser     handler for accepting received commands
+     * @param commandSendHolder manager for queued commands
      */
-    public GattCallback(IMessageParser messageParser) {
+    public GattCallback(@NonNull IMessageParser messageParser,
+                        @NonNull CommandSendHolder commandSendHolder) {
+
         this.messageParser = messageParser;
         descriptorWriteQueue = new LinkedList<>();
+        this.commandSendHolder = commandSendHolder;
     }
 
     @Override
@@ -246,7 +255,30 @@ class GattCallback extends BluetoothGattCallback {
      * @param payload received keep alive data
      */
     void onKeepAliveReceived(byte[] payload) {
+        Timber.d("Received keepAlive payload: %d bytes.", payload.length);
+        commandSendHolder.isClearToSend(true);
+    }
 
+    /**
+     * Tracks the state of the connection to determine if a command can be sent currently.
+     *
+     * @return true if no commands are being sent an the connection is capable of sending
+     */
+    boolean canSend() {
+        // TODO Determine if connection state needs to be tracked.
+        return currentSendCommand == null;
+    }
+
+    /**
+     * Request the next command to be sent.
+     */
+    void sendNextCommand() {
+        if (commandSendHolder.isClearToSend()
+                && commandSendHolder.hasCommandToSend()
+                && canSend()) {
+
+            commandSendHolder.nextCommand();
+        }
     }
 
 }
