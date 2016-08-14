@@ -16,7 +16,7 @@ android {
         abortOnError false
     }
     defaultConfig {
-        applicationId "com.ToxicBakery.library.btle.gottena.app"
+        applicationId "com.ToxicBakery.library.btle.gotenna.app"
         minSdkVersion 19
         targetSdkVersion 24
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
