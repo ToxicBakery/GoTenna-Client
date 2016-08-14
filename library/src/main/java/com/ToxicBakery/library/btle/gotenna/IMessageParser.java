@@ -8,8 +8,9 @@ public interface IMessageParser {
     /**
      * Take a piece of a message and handle it for complete message reassembly.
      *
-     * @param messageSegment received segment of the message
+     * @param packet received segment of the message
+     * @throws Exception when parsing a received packet
      */
-    void takeSegment(byte[] messageSegment);
+    void takePacket(byte[] packet) throws Exception;
 
 }

@@ -10,7 +10,14 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class Command implements Comparable<Command> {
 
+    /**
+     * Highest priority for a command.
+     */
     public static final int HIGH_PRIORITY = 1;
+
+    /**
+     * Default priority for a command
+     */
     public static final int NORMAL_PRIORITY = 2;
 
     /**
@@ -35,13 +42,26 @@ public abstract class Command implements Comparable<Command> {
      *
      * @return command payload
      */
+    @SuppressWarnings("mutable")
     public abstract byte[] getPayload();
+
+    /**
+     * Compares this object to the specified object to determine their relative order.
+     *
+     * @param command the object to compare to this instance.
+     * @return a negative integer if this instance is less than another; a positive integer if this
+     * instance is greater than another; 0 if this instance has the same order as another
+     */
+    @Override
+    public int compareTo(@NonNull Command command) {
+        return Integer.compare(getPriority(), command.getPriority());
+    }
 
     /**
      * Builder for creating command instances.
      */
     @AutoValue.Builder
-    public static abstract class Builder {
+    public abstract static class Builder {
 
         /**
          * Set the priority of the command.
@@ -66,11 +86,6 @@ public abstract class Command implements Comparable<Command> {
          */
         public abstract Command build();
 
-    }
-
-    @Override
-    public int compareTo(@NonNull Command command) {
-        return Integer.compare(getPriority(), command.getPriority());
     }
 
 }

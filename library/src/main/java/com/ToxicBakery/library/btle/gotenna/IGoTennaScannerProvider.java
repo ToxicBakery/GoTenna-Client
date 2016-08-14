@@ -12,6 +12,9 @@ import java.util.UUID;
  */
 public interface IGoTennaScannerProvider {
 
+    /**
+     * Service ID
+     */
     UUID SERVICE_UUID = UUID.fromString("f0abaaee-ebfa-f96f-28da-076c35a521db");
 
     /**

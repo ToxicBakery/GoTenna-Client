@@ -6,7 +6,7 @@ import java.util.UUID;
  * Utility for globally unique ids based on the Java UUID implementation. This strays from the
  * source implementation which is based on the Date object as a source of uniqueness.
  */
-public class GloballyUniqueId {
+public final class GloballyUniqueId {
 
     /**
      * Reserved id for emergency messages.
@@ -17,6 +17,9 @@ public class GloballyUniqueId {
      * Reserved id for shout messages.
      */
     public static final long GID_SHOUT = 1111111111L;
+
+    private GloballyUniqueId() {
+    }
 
     /**
      * Create a new GID from a random UUID.

@@ -30,7 +30,7 @@ public class SequenceNumber {
     private static final ExecutorService FILE_SAVE_EXECUTOR = new ThreadPoolExecutor(0, 1, 1,
             TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>());
 
-    private static volatile int sequenceNumber;
+    private static volatile int count;
 
     /**
      * Create the sequence manager and load the current sequence.
@@ -45,9 +45,9 @@ public class SequenceNumber {
      */
     public void reset() {
         synchronized (FILE_SAVE_EXECUTOR) {
-            sequenceNumber = 0;
+            count = 0;
 
-            Runnable runnable = new SequenceNumberSaveRunner(sequenceNumber);
+            Runnable runnable = new SequenceNumberSaveRunner(count);
             FILE_SAVE_EXECUTOR.submit(runnable);
         }
     }
@@ -59,7 +59,7 @@ public class SequenceNumber {
      */
     public int next() {
         synchronized (FILE_SAVE_EXECUTOR) {
-            int nextSequenceNumber = ++sequenceNumber;
+            int nextSequenceNumber = ++count;
 
             Runnable runnable = new SequenceNumberSaveRunner(nextSequenceNumber);
             FILE_SAVE_EXECUTOR.submit(runnable);
@@ -80,11 +80,11 @@ public class SequenceNumber {
                 DataInputStream inputStream = null;
                 try {
                     inputStream = new DataInputStream(new FileInputStream(FILE_NAME));
-                    sequenceNumber = inputStream.readInt();
+                    count = inputStream.readInt();
                 } catch (IOException e) {
                     Timber.e(e, "Failed to persist sequence.");
                 } finally {
-                    FileUtil.closeQuitely(inputStream);
+                    FileUtil.closeQuietly(inputStream);
                 }
             }
         }
@@ -118,7 +118,7 @@ public class SequenceNumber {
                 } catch (IOException e) {
                     Timber.e(e, "Failed to persist sequence.");
                 } finally {
-                    FileUtil.closeQuitely(outputStream);
+                    FileUtil.closeQuietly(outputStream);
                 }
             }
         }

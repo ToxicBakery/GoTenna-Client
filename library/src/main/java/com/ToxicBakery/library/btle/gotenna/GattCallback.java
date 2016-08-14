@@ -13,10 +13,15 @@ import java.util.UUID;
 
 import timber.log.Timber;
 
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_KEEP_ALIVE;
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_PROTOCOL_REVISION;
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_READ;
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_WRITE;
+
 /**
  * Callback implementation for handling state.
  */
-class GattCallback extends BluetoothGattCallback implements ICharacteristics {
+class GattCallback extends BluetoothGattCallback {
 
     private final IMessageParser messageParser;
     private final Queue<BluetoothGattDescriptor> descriptorWriteQueue;
@@ -30,6 +35,11 @@ class GattCallback extends BluetoothGattCallback implements ICharacteristics {
     private int lastState;
     private String protocolRevision;
 
+    /**
+     * Create the callback using the given parser for handling received messages.
+     *
+     * @param messageParser handler for accepting received commands
+     */
     public GattCallback(IMessageParser messageParser) {
         this.messageParser = messageParser;
         descriptorWriteQueue = new LinkedList<>();
@@ -107,7 +117,7 @@ class GattCallback extends BluetoothGattCallback implements ICharacteristics {
 
         if (characteristic.getUuid().equals(CHARACTERISTIC_PROTOCOL_REVISION)) {
             protocolRevision = characteristic.getStringValue(0);
-            Timber.d("Protocol revision determined to be %d", protocolRevision);
+            Timber.d("Protocol revision determined to be %s", protocolRevision);
             setNotifyOrIndicateOnCharacteristic(gatt, characteristicRead);
             setNotifyOrIndicateOnCharacteristic(gatt, characteristicWrite);
             setNotifyOrIndicateOnCharacteristic(gatt, characteristicKeepAlive);
@@ -128,7 +138,11 @@ class GattCallback extends BluetoothGattCallback implements ICharacteristics {
         super.onCharacteristicChanged(gatt, characteristic);
 
         if (characteristic == characteristicRead) {
-            messageParser.takeSegment(characteristic.getValue());
+            try {
+                messageParser.takePacket(characteristic.getValue());
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
         } else if (characteristic == characteristicWrite) {
             onKeepAliveReceived(characteristic.getValue());
         }

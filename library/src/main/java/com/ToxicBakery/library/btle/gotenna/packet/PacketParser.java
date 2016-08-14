@@ -2,6 +2,7 @@ package com.ToxicBakery.library.btle.gotenna.packet;
 
 import android.support.annotation.NonNull;
 
+import com.ToxicBakery.library.btle.gotenna.IMessageParser;
 import com.ToxicBakery.library.btle.gotenna.command.Command;
 
 import java.io.ByteArrayOutputStream;
@@ -10,7 +11,7 @@ import java.io.IOException;
 /**
  * Reads a received packet as part of a command.
  */
-public class PacketParser {
+public class PacketParser implements IMessageParser {
 
     /**
      * First byte of a message and 2nd to last.
@@ -44,9 +45,10 @@ public class PacketParser {
      * Take the packet and store it to later generate a complete command representation.
      *
      * @param packet to store
-     * @throws IOException if the packet could not be stored
+     * @throws Exception if the packet could not be stored
      */
-    public void takePacket(@NonNull byte[] packet) throws IOException {
+    @Override
+    public void takePacket(@NonNull byte[] packet) throws Exception {
         if (isFinished()) {
             throw new IllegalStateException("Parser has already received all expected packets");
         }
