@@ -26,7 +26,7 @@ public class GloballyUniqueIdTest {
     @Test
     public void testCreateGid() throws Exception {
         Set<Long> ids = new HashSet<>();
-        long iterations = (long) Math.pow(2, 20);
+        long iterations = (long) Math.pow(2, 17);
         int failures = 0;
         for (long i = 0; i < iterations; i++) {
             long gid = GloballyUniqueId.createGid();
