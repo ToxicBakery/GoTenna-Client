@@ -16,7 +16,7 @@ public class PacketParserTest {
     private static final int BLE_PACKET_SIZE = 20;
 
     /**
-     * Three packets from a real message sent by a device.
+     * Three packets (joined as one array) from a real message sent by a device.
      */
     private static final byte[] COMPLETE_PACKET = new byte[]{
             0x10, 0x02, 0x03, (byte) 0x94, 0x06, 0x03, 0x02, 0x3f, (byte) 0xff, 0x05, 0x22,
