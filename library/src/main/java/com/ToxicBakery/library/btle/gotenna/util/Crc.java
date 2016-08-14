@@ -3,7 +3,7 @@ package com.ToxicBakery.library.btle.gotenna.util;
 /**
  * CRC Checksum encoding utilities.
  */
-public class Crc {
+public final class Crc {
 
     /**
      * Pre calculated CRC16 value table.
@@ -30,6 +30,9 @@ public class Crc {
             40424, 36297, 31782, 27655, 23652, 19525, 15522, 11395, 7392, 3265, 61215, 65342, 53085,
             57212, 44955, 49082, 36825, 40952, 28183, 32310, 20053, 24180, 11923, 16050, 3793, 7920
     };
+
+    private Crc() {
+    }
 
     /**
      * Perform CRC16 checksum on a byte array.

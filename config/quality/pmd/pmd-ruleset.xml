@@ -26,6 +26,7 @@
     <exclude-pattern>.*/gen/.*</exclude-pattern>
     <exclude-pattern>.*/androidTest/.*</exclude-pattern>
     <exclude-pattern>.*/test/.*</exclude-pattern>
+    <exclude-pattern>.*/Crc.java</exclude-pattern>
 
     <rule ref="rulesets/java/android.xml" />
     <rule ref="rulesets/java/clone.xml" />
