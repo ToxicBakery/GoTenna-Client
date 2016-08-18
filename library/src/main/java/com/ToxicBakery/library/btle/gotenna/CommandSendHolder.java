@@ -3,7 +3,7 @@ package com.ToxicBakery.library.btle.gotenna;
 import android.support.annotation.NonNull;
 
 import com.ToxicBakery.library.btle.gotenna.command.Command;
-import com.ToxicBakery.library.btle.gotenna.command.CommandPriorityQueue;
+import com.ToxicBakery.library.btle.gotenna.command.CommandQueue;
 
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,7 +20,7 @@ public class CommandSendHolder {
      * Create a command queue instance.
      */
     public CommandSendHolder() {
-        commandQueue = new CommandPriorityQueue();
+        commandQueue = new CommandQueue();
         clearToSend = new AtomicBoolean();
     }
 

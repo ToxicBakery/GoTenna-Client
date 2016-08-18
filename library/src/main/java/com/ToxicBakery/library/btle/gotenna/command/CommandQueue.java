@@ -5,5 +5,5 @@ import java.util.PriorityQueue;
 /**
  * Concrete PriorityQueue implementation for Commands
  */
-public class CommandPriorityQueue extends PriorityQueue<Command> {
+public class CommandQueue extends PriorityQueue<Command> {
 }
