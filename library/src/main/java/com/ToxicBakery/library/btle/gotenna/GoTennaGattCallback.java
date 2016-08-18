@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothGattService;
 import android.support.annotation.NonNull;
 
 import com.ToxicBakery.library.btle.gotenna.command.Command;
+import com.ToxicBakery.library.btle.gotenna.command.CommandSendHolder;
 import com.ToxicBakery.library.btle.gotenna.packet.PacketParser;
 import com.ToxicBakery.library.btle.gotenna.packet.PreparedPacket;
 

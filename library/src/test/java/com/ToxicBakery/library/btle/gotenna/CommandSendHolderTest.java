@@ -2,6 +2,7 @@ package com.ToxicBakery.library.btle.gotenna;
 
 import com.ToxicBakery.library.btle.gotenna.command.Command;
 import com.ToxicBakery.library.btle.gotenna.command.CommandPriority;
+import com.ToxicBakery.library.btle.gotenna.command.CommandSendHolder;
 
 import org.junit.Test;
 

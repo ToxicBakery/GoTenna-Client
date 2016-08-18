@@ -1,9 +1,6 @@
-package com.ToxicBakery.library.btle.gotenna;
+package com.ToxicBakery.library.btle.gotenna.command;
 
 import android.support.annotation.NonNull;
-
-import com.ToxicBakery.library.btle.gotenna.command.Command;
-import com.ToxicBakery.library.btle.gotenna.command.CommandQueue;
 
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
