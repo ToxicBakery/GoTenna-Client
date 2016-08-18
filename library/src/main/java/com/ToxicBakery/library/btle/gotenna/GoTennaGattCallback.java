@@ -8,6 +8,8 @@ import android.bluetooth.BluetoothGattService;
 import android.support.annotation.NonNull;
 
 import com.ToxicBakery.library.btle.gotenna.command.Command;
+import com.ToxicBakery.library.btle.gotenna.packet.PacketParser;
+import com.ToxicBakery.library.btle.gotenna.packet.PreparedPacket;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +26,7 @@ import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTI
 /**
  * Callback implementation for handling state.
  */
-class GattCallback extends BluetoothGattCallback {
+class GoTennaGattCallback extends BluetoothGattCallback {
 
     private final IMessageParser messageParser;
     private final Queue<BluetoothGattDescriptor> descriptorWriteQueue;
@@ -35,10 +37,18 @@ class GattCallback extends BluetoothGattCallback {
     private BluetoothGattCharacteristic characteristicRead;
     private BluetoothGattCharacteristic characteristicWrite;
     private Command currentSendCommand;
+    private PreparedPacket currentPreparedPackets;
     private int lastRssi;
     private int lastStatus;
     private int lastState;
     private String protocolRevision;
+
+    /**
+     * Create the callback using the default parsing and command holder.
+     */
+    public GoTennaGattCallback() {
+        this(new PacketParser(), new CommandSendHolder());
+    }
 
     /**
      * Create the callback using the given parser for handling received messages.
@@ -46,8 +56,8 @@ class GattCallback extends BluetoothGattCallback {
      * @param messageParser     handler for accepting received commands
      * @param commandSendHolder manager for queued commands
      */
-    public GattCallback(@NonNull IMessageParser messageParser,
-                        @NonNull CommandSendHolder commandSendHolder) {
+    public GoTennaGattCallback(@NonNull IMessageParser messageParser,
+                               @NonNull CommandSendHolder commandSendHolder) {
 
         this.messageParser = messageParser;
         descriptorWriteQueue = new LinkedList<>();
@@ -265,7 +275,7 @@ class GattCallback extends BluetoothGattCallback {
      * @return true if no commands are being sent an the connection is capable of sending
      */
     boolean canSend() {
-        // TODO Determine if connection state needs to be tracked.
+        // TODO Determine if connection state needs to be tracked here also
         return currentSendCommand == null;
     }
 
@@ -277,7 +287,8 @@ class GattCallback extends BluetoothGattCallback {
                 && commandSendHolder.hasCommandToSend()
                 && canSend()) {
 
-            commandSendHolder.nextCommand();
+            currentSendCommand = commandSendHolder.nextCommand();
+            currentPreparedPackets = new PreparedPacket(currentSendCommand);
         }
     }
 

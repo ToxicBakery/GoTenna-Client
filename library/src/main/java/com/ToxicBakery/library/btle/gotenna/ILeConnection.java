@@ -20,4 +20,25 @@ public interface ILeConnection {
      */
     void disconnect();
 
+    /**
+     * Get the rssi level of the connection.
+     *
+     * @return rssi level
+     */
+    int getRssi();
+
+    /**
+     * Get the connection state.
+     *
+     * @return connection state
+     */
+    int getState();
+
+    /**
+     * Get the Gatt status of the connection.
+     *
+     * @return gatt status
+     */
+    int getStatus();
+
 }
