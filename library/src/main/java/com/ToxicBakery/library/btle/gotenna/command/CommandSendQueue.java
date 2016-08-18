@@ -2,41 +2,21 @@ package com.ToxicBakery.library.btle.gotenna.command;
 
 import android.support.annotation.NonNull;
 
+import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Manage commands ensuring send priority and tracking if commands should be sent.
  */
-public class CommandSendHolder {
+public class CommandSendQueue {
 
     private final Queue<Command> commandQueue;
-    private final AtomicBoolean clearToSend;
 
     /**
      * Create a command queue instance.
      */
-    public CommandSendHolder() {
-        commandQueue = new CommandQueue();
-        clearToSend = new AtomicBoolean();
-    }
-
-    /**
-     * Determine if the queue is clear to send.
-     *
-     * @return true indicates clear to send
-     */
-    public boolean isClearToSend() {
-        return clearToSend.get();
-    }
-
-    /**
-     * Mark the clear to send flag.
-     *
-     * @param flag true indicates the antenna is ready for messages
-     */
-    public void isClearToSend(boolean flag) {
-        clearToSend.set(flag);
+    public CommandSendQueue() {
+        commandQueue = new PriorityQueue<>();
     }
 
     /**
@@ -55,7 +35,7 @@ public class CommandSendHolder {
      */
     @NonNull
     public Command nextCommand() {
-        return commandQueue.element();
+        return commandQueue.remove();
     }
 
     /**

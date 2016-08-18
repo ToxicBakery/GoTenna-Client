@@ -8,10 +8,13 @@ import android.bluetooth.BluetoothGattService;
 import android.support.annotation.NonNull;
 
 import com.ToxicBakery.library.btle.gotenna.command.Command;
-import com.ToxicBakery.library.btle.gotenna.command.CommandSendHolder;
-import com.ToxicBakery.library.btle.gotenna.packet.PacketParser;
-import com.ToxicBakery.library.btle.gotenna.packet.PreparedPacket;
+import com.ToxicBakery.library.btle.gotenna.command.CommandSendQueue;
+import com.ToxicBakery.library.btle.gotenna.command.CommandSendState;
+import com.ToxicBakery.library.btle.gotenna.packet.IPacketParser;
+import com.ToxicBakery.library.btle.gotenna.packet.IPacketParserFactory;
+import com.ToxicBakery.library.btle.gotenna.packet.PacketParserFactory;
 
+import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -27,18 +30,19 @@ import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTI
 /**
  * Callback implementation for handling state.
  */
-class GoTennaGattCallback extends BluetoothGattCallback {
+public class GoTennaGattCallback extends BluetoothGattCallback {
 
-    private final IMessageParser messageParser;
+    private final IPacketParserFactory messageParserFactory;
     private final Queue<BluetoothGattDescriptor> descriptorWriteQueue;
-    private final CommandSendHolder commandSendHolder;
+    private final CommandSendQueue commandSendQueue;
 
     private BluetoothGattCharacteristic characteristicKeepAlive;
     private BluetoothGattCharacteristic characteristicProtocolRev;
     private BluetoothGattCharacteristic characteristicRead;
     private BluetoothGattCharacteristic characteristicWrite;
-    private Command currentSendCommand;
-    private PreparedPacket currentPreparedPackets;
+    private CommandSendState commandSendState;
+    private IPacketParser currentMessageParser;
+    private boolean clearToSend;
     private int lastRssi;
     private int lastStatus;
     private int lastState;
@@ -48,21 +52,21 @@ class GoTennaGattCallback extends BluetoothGattCallback {
      * Create the callback using the default parsing and command holder.
      */
     public GoTennaGattCallback() {
-        this(new PacketParser(), new CommandSendHolder());
+        this(new PacketParserFactory(), new CommandSendQueue());
     }
 
     /**
      * Create the callback using the given parser for handling received messages.
      *
-     * @param messageParser     handler for accepting received commands
-     * @param commandSendHolder manager for queued commands
+     * @param messageParserFactory builder of message parsers
+     * @param commandSendQueue     manager for queued commands
      */
-    public GoTennaGattCallback(@NonNull IMessageParser messageParser,
-                               @NonNull CommandSendHolder commandSendHolder) {
+    public GoTennaGattCallback(@NonNull IPacketParserFactory messageParserFactory,
+                               @NonNull CommandSendQueue commandSendQueue) {
 
-        this.messageParser = messageParser;
+        this.messageParserFactory = messageParserFactory;
         descriptorWriteQueue = new LinkedList<>();
-        this.commandSendHolder = commandSendHolder;
+        this.commandSendQueue = commandSendQueue;
     }
 
     @Override
@@ -159,7 +163,7 @@ class GoTennaGattCallback extends BluetoothGattCallback {
 
         if (characteristic == characteristicRead) {
             try {
-                messageParser.takePacket(characteristic.getValue());
+                takePacket(characteristic.getValue());
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
@@ -232,6 +236,22 @@ class GoTennaGattCallback extends BluetoothGattCallback {
     }
 
     /**
+     * Take a received packet and process it in the associated parser or create a new one.
+     *
+     * @param input packet
+     * @throws Exception when parsing a received packet fails
+     */
+    void takePacket(byte[] input) throws Exception {
+        currentMessageParser.takePacket(input);
+        if (currentMessageParser.isFinished()) {
+            Charset charset = Charset.forName("UTF-8");
+            Timber.d("Received command: %s",
+                    new String(currentMessageParser.toCommand().getPayload(), charset));
+            currentMessageParser = messageParserFactory.createParser();
+        }
+    }
+
+    /**
      * Set the last device status.
      *
      * @param gatt   device gatt
@@ -267,7 +287,8 @@ class GoTennaGattCallback extends BluetoothGattCallback {
      */
     void onKeepAliveReceived(byte[] payload) {
         Timber.d("Received keepAlive payload: %d bytes.", payload.length);
-        commandSendHolder.isClearToSend(true);
+        clearToSend = true;
+        sendNextCommand();
     }
 
     /**
@@ -277,19 +298,20 @@ class GoTennaGattCallback extends BluetoothGattCallback {
      */
     boolean canSend() {
         // TODO Determine if connection state needs to be tracked here also
-        return currentSendCommand == null;
+        return commandSendState == null
+                || commandSendState.isComplete();
     }
 
     /**
      * Request the next command to be sent.
      */
     void sendNextCommand() {
-        if (commandSendHolder.isClearToSend()
-                && commandSendHolder.hasCommandToSend()
+        if (clearToSend
+                && commandSendQueue.hasCommandToSend()
                 && canSend()) {
 
-            currentSendCommand = commandSendHolder.nextCommand();
-            currentPreparedPackets = new PreparedPacket(currentSendCommand);
+            Command command = commandSendQueue.nextCommand();
+            commandSendState = new CommandSendState(command);
         }
     }
 

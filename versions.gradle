@@ -2,6 +2,7 @@
 // Testing
 project.ext.set('junit', '4.12')
 project.ext.set('mockito', '1.10.19')
+project.ext.set('dexMaker', '1.2')
 project.ext.set('supportTesting','0.5')
 project.ext.set('espresso','2.2.2')
 

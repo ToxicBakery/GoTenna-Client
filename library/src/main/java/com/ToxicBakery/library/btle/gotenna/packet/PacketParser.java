@@ -2,7 +2,6 @@ package com.ToxicBakery.library.btle.gotenna.packet;
 
 import android.support.annotation.NonNull;
 
-import com.ToxicBakery.library.btle.gotenna.IMessageParser;
 import com.ToxicBakery.library.btle.gotenna.command.Command;
 
 import java.io.ByteArrayOutputStream;
@@ -16,7 +15,7 @@ import static com.ToxicBakery.library.btle.gotenna.packet.PacketParts.DEFAULT_BU
 /**
  * Reads a received packet as part of a command.
  */
-public class PacketParser implements IMessageParser {
+class PacketParser implements IPacketParser {
 
     private final ByteArrayOutputStream outputStream;
 
@@ -46,20 +45,12 @@ public class PacketParser implements IMessageParser {
         processPacket(packet);
     }
 
-    /**
-     * Determine if the parser has read all packets in the command.
-     *
-     * @return true if all packets have been read
-     */
+    @Override
     public boolean isFinished() {
         return hasFinished;
     }
 
-    /**
-     * Create a command representing the payload.
-     *
-     * @return command for the payload
-     */
+    @Override
     public Command toCommand() {
         if (!isFinished()) {
             throw new IllegalStateException("Can not create command from incomplete packet list");

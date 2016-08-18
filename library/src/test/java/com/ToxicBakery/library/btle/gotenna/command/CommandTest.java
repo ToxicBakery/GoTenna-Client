@@ -23,9 +23,9 @@ public class CommandTest {
         commandQueue.add(buildCommand(Command.HIGH_PRIORITY));
         commandQueue.add(buildCommand(Command.NORMAL_PRIORITY));
 
-        Assert.assertEquals(Command.HIGH_PRIORITY, commandQueue.poll().getPriority());
-        Assert.assertEquals(Command.NORMAL_PRIORITY, commandQueue.poll().getPriority());
-        Assert.assertEquals(Command.NORMAL_PRIORITY, commandQueue.poll().getPriority());
+        Assert.assertEquals(Command.HIGH_PRIORITY, commandQueue.remove().getPriority());
+        Assert.assertEquals(Command.NORMAL_PRIORITY, commandQueue.remove().getPriority());
+        Assert.assertEquals(Command.NORMAL_PRIORITY, commandQueue.remove().getPriority());
     }
 
     /**

@@ -20,7 +20,7 @@ import static com.ToxicBakery.library.btle.gotenna.packet.PacketParts.PACKET_SIZ
 /**
  * Write packets for a given command.
  */
-public class PreparedPacket {
+public class PreparedPackets {
 
     private final List<byte[]> packets;
     private final int preparedPacketLength;
@@ -30,7 +30,7 @@ public class PreparedPacket {
      *
      * @param command to prepare
      */
-    public PreparedPacket(@NonNull Command command) {
+    public PreparedPackets(@NonNull Command command) {
         byte[] preparedCommand = prepare(command);
         preparedPacketLength = preparedCommand.length;
         packets = new ArrayList<>(split(preparedCommand));
@@ -43,6 +43,7 @@ public class PreparedPacket {
      * @return stored packet
      * @throws IndexOutOfBoundsException if index is &lt;0 or &gt;preparedPacket.size()
      */
+    @NonNull
     public byte[] getPacket(int index) throws IndexOutOfBoundsException {
         return packets.get(index);
     }

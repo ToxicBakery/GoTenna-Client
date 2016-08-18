@@ -52,6 +52,8 @@ android {
 dependencies {
     androidTestCompile "junit:junit:${rootProject.junit}"
     androidTestCompile "org.mockito:mockito-core:${rootProject.mockito}"
+    androidTestCompile "com.google.dexmaker:dexmaker:${rootProject.dexMaker}"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${rootProject.dexMaker}"
     androidTestCompile "com.android.support.test:runner:${rootProject.supportTesting}"
     androidTestCompile "com.android.support.test:rules:${rootProject.supportTesting}"
     androidTestCompile "com.android.support.test.espresso:espresso-core:${rootProject.espresso}"
