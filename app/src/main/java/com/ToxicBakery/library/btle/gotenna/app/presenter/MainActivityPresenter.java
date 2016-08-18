@@ -29,13 +29,15 @@ public class MainActivityPresenter extends Presenter<MainActivity> {
 
     private static final int REQUEST_PERMISSION = 1000;
 
-    private ILeScanCallback leScanCallback;
-
+    //CHECKSTYLE:OFF
     @Inject
     Context context;
 
     @Inject
     ScanManager scanManager;
+    //CHECKSTYLE:ON
+
+    private ILeScanCallback leScanCallback;
 
     @Override
     protected void onCreate(@Nullable Bundle savedState) {

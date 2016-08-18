@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Basic ArrayList adapter.
+ *
  * @param <M> model
  * @param <H> holder
  */
@@ -62,6 +63,7 @@ public abstract class ArrayListAdapter<M, H extends BindedViewHolder<M>>
      * Remove an item from the list and update the adapter.
      *
      * @param model to remove
+     * @return true if an item was removed
      */
     @MainThread
     @CheckResult

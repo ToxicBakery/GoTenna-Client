@@ -13,6 +13,11 @@ import dagger.Component;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
 
-    void inject(MainActivityPresenter presenter);
+    /**
+     * Inject the dependencies in a MainActivityPresenter instance.
+     *
+     * @param target presenter instance to inject
+     */
+    void inject(MainActivityPresenter target);
 
 }
