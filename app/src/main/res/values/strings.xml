@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">GoTennaClient</string>
-    <string name="scan_start">Start Scanning</string>
-    <string name="scan_stop">Stop Scanning</string>
+
+    <!-- Main Activity -->
+    <string name="activity_main_scan_start">Start Scanning</string>
+    <string name="activity_main_scan_stop">Stop Scanning</string>
+
+    <!-- Connect Activity -->
+    <string name="activity_connect_button_disconnect">Disconnect</string>
 </resources>
