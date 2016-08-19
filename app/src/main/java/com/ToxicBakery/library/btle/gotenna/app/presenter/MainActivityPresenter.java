@@ -29,13 +29,11 @@ public class MainActivityPresenter extends Presenter<MainActivity> {
 
     private static final int REQUEST_PERMISSION = 1000;
 
-    //CHECKSTYLE:OFF
     @Inject
     Context context;
 
     @Inject
     ScanManager scanManager;
-    //CHECKSTYLE:ON
 
     private ILeScanCallback leScanCallback;
 
@@ -81,7 +79,7 @@ public class MainActivityPresenter extends Presenter<MainActivity> {
         mainActivity.setScanEnabled(hasPermission);
 
         boolean isScanning = scanManager.isScanning();
-        mainActivity.setScanButton(isScanning ? R.string.scan_stop : R.string.scan_start);
+        mainActivity.setScanButton(isScanning ? R.string.activity_main_scan_stop : R.string.activity_main_scan_start);
     }
 
     /**
