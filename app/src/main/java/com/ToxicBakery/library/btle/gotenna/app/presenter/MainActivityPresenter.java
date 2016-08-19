@@ -13,6 +13,7 @@ import com.ToxicBakery.android.version.Is;
 import com.ToxicBakery.android.version.SdkVersion;
 import com.ToxicBakery.library.btle.gotenna.app.ClientApplication;
 import com.ToxicBakery.library.btle.gotenna.app.R;
+import com.ToxicBakery.library.btle.gotenna.app.adapter.ScanResultAdapter;
 import com.ToxicBakery.library.btle.gotenna.app.scan.ScanManager;
 import com.ToxicBakery.library.btle.gotenna.app.view.MainActivity;
 import com.ToxicBakery.library.btle.scanning.ILeScanCallback;
@@ -64,6 +65,15 @@ public class MainActivityPresenter extends Presenter<MainActivity> {
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_PERMISSION);
         }
+    }
+
+    /**
+     * Create and adapter for displaying scan results.
+     *
+     * @return scan result adapter
+     */
+    public ScanResultAdapter getAdapter() {
+        return new ScanResultAdapter();
     }
 
     /**
