@@ -259,7 +259,9 @@ public class GoTennaGattCallback extends BluetoothGattCallback {
      */
     void setLastStatus(BluetoothGatt gatt, int status) {
         Timber.d("Changing status from %d to %d", lastStatus, status);
-        if (status == BluetoothGatt.STATE_DISCONNECTED
+        if (lastStatus != BluetoothGatt.STATE_DISCONNECTED
+                && lastStatus != BluetoothGatt.STATE_DISCONNECTING
+                && status == BluetoothGatt.STATE_DISCONNECTED
                 || status == BluetoothGatt.STATE_DISCONNECTING) {
 
             Timber.d("Disconnecting due to status %d", status);
