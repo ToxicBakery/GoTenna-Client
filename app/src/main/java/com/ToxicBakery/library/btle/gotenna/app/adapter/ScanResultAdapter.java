@@ -13,12 +13,25 @@ import com.ToxicBakery.library.btle.scanning.ScanResultCompat;
  */
 public class ScanResultAdapter extends ArrayListAdapter<ScanResultCompat, ScanResultViewHolder> {
 
+
+    /**
+     * Create the scan result using the click listener as a callback.
+     *
+     * @param itemClickListener click callback for scan items
+     */
+    public ScanResultAdapter(IItemClickListener<ScanResultCompat> itemClickListener) {
+        super(itemClickListener);
+    }
+
     @Override
-    public ScanResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    protected ScanResultViewHolder onCreateViewHolder(ViewGroup parent,
+                                                      int viewType,
+                                                      IItemClickListener<ScanResultCompat> itemClickListener) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_scan_result, parent, false);
 
-        return new ScanResultViewHolder(view);
+        return new ScanResultViewHolder(view, itemClickListener);
     }
 
 }

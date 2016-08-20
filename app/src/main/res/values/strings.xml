@@ -7,4 +7,7 @@
 
     <!-- Connect Activity -->
     <string name="activity_connect_button_disconnect">Disconnect</string>
+    <string name="activity_connect_button_disconnecting">Disconnecting</string>
+    <string name="activity_connect_button_connecting">Connecting</string>
+    <string name="activity_connect_button_connect">Connect</string>
 </resources>

@@ -13,7 +13,10 @@ import com.ToxicBakery.library.btle.gotenna.app.adapter.holder.StateMessageViewH
 public class StateMessageAdapter extends ArrayListAdapter<String, StateMessageViewHolder> {
 
     @Override
-    public StateMessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    protected StateMessageViewHolder onCreateViewHolder(ViewGroup parent,
+                                                        int viewType,
+                                                        IItemClickListener<String> itemClickListener) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_message, parent, false);
 

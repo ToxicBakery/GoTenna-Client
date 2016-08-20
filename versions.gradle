@@ -8,7 +8,7 @@ project.ext.set('espresso','2.2.2')
 
 // Compile libs
 project.ext.set('androidSupport', '24.2.0')
-project.ext.set('btleScannerCompat', '1.0.49-SNAPSHOT')
+project.ext.set('btleScannerCompat', '1.0.57-SNAPSHOT')
 project.ext.set('versions', '1.0.13')
 project.ext.set('dagger2', '2.5')
 project.ext.set('timber', '4.1.2')

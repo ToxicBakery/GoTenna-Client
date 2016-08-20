@@ -15,6 +15,7 @@ import java.util.Set;
  */
 class RegistrableLeScanCallback implements IRegistrableLeScanCallback {
 
+    private final Object lock = new Object();
     private final List<ILeScanCallback> callbackList;
     private final Set<ScanResultCompat> scanResults;
 
@@ -28,53 +29,47 @@ class RegistrableLeScanCallback implements IRegistrableLeScanCallback {
 
     @Override
     public void onDeviceFound(@NonNull ScanResultCompat leScanCallback) {
-        synchronized (scanResults) {
-            scanResults.add(leScanCallback);
-        }
-
-        synchronized (callbackList) {
-            for (ILeScanCallback scanCallback : callbackList) {
-                scanCallback.onDeviceFound(leScanCallback);
-            }
-        }
-    }
-
-    @Override
-    public void onDeviceLost(@NonNull ScanResultCompat leScanCallback) {
-        synchronized (scanResults) {
-            scanResults.remove(leScanCallback);
-        }
-
-        synchronized (callbackList) {
-            for (ILeScanCallback scanCallback : callbackList) {
-                scanCallback.onDeviceLost(leScanCallback);
-            }
-        }
-    }
-
-    @Override
-    public void registerCallback(ILeScanCallback leScanCallback) {
-        synchronized (callbackList) {
-            callbackList.add(leScanCallback);
-
-            synchronized (scanResults) {
-                for (ScanResultCompat scanResult : scanResults) {
-                    leScanCallback.onDeviceFound(scanResult);
+        synchronized (lock) {
+            if (scanResults.add(leScanCallback)) {
+                for (ILeScanCallback scanCallback : callbackList) {
+                    scanCallback.onDeviceFound(leScanCallback);
                 }
             }
         }
     }
 
     @Override
+    public void onDeviceLost(@NonNull ScanResultCompat leScanCallback) {
+        synchronized (lock) {
+            if (scanResults.remove(leScanCallback)) {
+                for (ILeScanCallback scanCallback : callbackList) {
+                    scanCallback.onDeviceLost(leScanCallback);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void registerCallback(ILeScanCallback leScanCallback) {
+        synchronized (lock) {
+            callbackList.add(leScanCallback);
+
+            for (ScanResultCompat scanResult : scanResults) {
+                leScanCallback.onDeviceFound(scanResult);
+            }
+        }
+    }
+
+    @Override
     public void unregisterCallback(ILeScanCallback leScanCallback) {
-        synchronized (callbackList) {
+        synchronized (lock) {
             callbackList.remove(leScanCallback);
         }
     }
 
     @Override
     public void clearResults() {
-        synchronized (scanResults) {
+        synchronized (lock) {
             scanResults.clear();
         }
     }

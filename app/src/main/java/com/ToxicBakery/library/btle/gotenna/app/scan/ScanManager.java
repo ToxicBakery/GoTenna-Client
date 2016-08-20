@@ -64,13 +64,19 @@ public class ScanManager implements IScanCallbackRegistration {
     @MainThread
     public void toggle() {
         if (isScanning()) {
-            scanBinder.stop();
-            scanBinder = null;
-            registrableLeScanCallback.clearResults();
+            stop();
         } else {
             scanBinder = scannerProvider.startScan(registrableLeScanCallback);
         }
     }
 
+    @MainThread
+    public void stop() {
+        if (isScanning()) {
+            scanBinder.stop();
+            scanBinder = null;
+            clearResults();
+        }
+    }
 
 }

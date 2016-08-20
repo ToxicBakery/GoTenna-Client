@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.ToxicBakery.library.btle.gotenna.GoTennaScannerProvider;
 import com.ToxicBakery.library.btle.gotenna.IGoTennaScannerProvider;
+import com.ToxicBakery.library.btle.gotenna.app.connection.ConnectionHolder;
+import com.ToxicBakery.library.btle.gotenna.app.connection.IConnectionHolder;
 
 import javax.inject.Singleton;
 
@@ -60,6 +62,12 @@ public class AppModule {
     @Singleton
     IGoTennaScannerProvider providesScanProvider(Context context) {
         return new GoTennaScannerProvider(context);
+    }
+
+    @Provides
+    @Singleton
+    IConnectionHolder providesConnectionHolder() {
+        return new ConnectionHolder();
     }
 
 }

@@ -1,7 +1,9 @@
 package com.ToxicBakery.library.btle.gotenna.app.presenter;
 
 import android.Manifest;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,8 +15,10 @@ import com.ToxicBakery.android.version.Is;
 import com.ToxicBakery.android.version.SdkVersion;
 import com.ToxicBakery.library.btle.gotenna.app.ClientApplication;
 import com.ToxicBakery.library.btle.gotenna.app.R;
+import com.ToxicBakery.library.btle.gotenna.app.adapter.ArrayListAdapter;
 import com.ToxicBakery.library.btle.gotenna.app.adapter.ScanResultAdapter;
 import com.ToxicBakery.library.btle.gotenna.app.scan.ScanManager;
+import com.ToxicBakery.library.btle.gotenna.app.view.ConnectActivity;
 import com.ToxicBakery.library.btle.gotenna.app.view.MainActivity;
 import com.ToxicBakery.library.btle.scanning.ILeScanCallback;
 import com.ToxicBakery.library.btle.scanning.ScanResultCompat;
@@ -22,11 +26,13 @@ import com.ToxicBakery.library.btle.scanning.ScanResultCompat;
 import javax.inject.Inject;
 
 import nucleus.presenter.Presenter;
+import timber.log.Timber;
 
 /**
  * Presenter for the main activity.
  */
-public class MainActivityPresenter extends Presenter<MainActivity> {
+public class MainActivityPresenter extends Presenter<MainActivity> implements
+        ArrayListAdapter.IItemClickListener<ScanResultCompat> {
 
     private static final int REQUEST_PERMISSION = 1000;
 
@@ -67,13 +73,26 @@ public class MainActivityPresenter extends Presenter<MainActivity> {
         }
     }
 
+    @Override
+    public void onItemClicked(ScanResultCompat item) {
+        Timber.d("Device selected: %s", item);
+        scanManager.stop();
+
+        MainActivity mainActivity = getView();
+        if (mainActivity != null) {
+            Intent intent = new Intent(mainActivity, ConnectActivity.class);
+            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, item.getDevice());
+            mainActivity.startActivity(intent);
+        }
+    }
+
     /**
-     * Create and adapter for displaying scan results.
+     * Create an adapter for displaying scan results.
      *
      * @return scan result adapter
      */
     public ScanResultAdapter getAdapter() {
-        return new ScanResultAdapter();
+        return new ScanResultAdapter(this);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.ToxicBakery.library.btle.gotenna.app.di;
 
+import com.ToxicBakery.library.btle.gotenna.app.presenter.ConnectActivityPresenter;
 import com.ToxicBakery.library.btle.gotenna.app.presenter.MainActivityPresenter;
 
 import javax.inject.Singleton;
@@ -19,5 +20,12 @@ public interface AppComponent {
      * @param target presenter instance to inject
      */
     void inject(MainActivityPresenter target);
+
+    /**
+     * Inject the dependencies in a ConnectActivityPresenter instance.
+     *
+     * @param target presenter instance to inject
+     */
+    void inject(ConnectActivityPresenter target);
 
 }
