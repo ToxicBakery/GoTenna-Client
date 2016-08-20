@@ -103,7 +103,6 @@ public class GoTennaGattCallback extends BluetoothGattCallback {
                     characteristicKeepAlive = characteristic;
                     Timber.d("Processed keep alive characteristic %s", characteristic.toString());
                 } else if (CHARACTERISTIC_PROTOCOL_REVISION.equals(characteristicUuid)) {
-                    gatt.setCharacteristicNotification(characteristic, true);
                     characteristicProtocolRev = characteristic;
                     Timber.d("Processed protocol rev characteristic %s", characteristic.toString());
                 } else if (CHARACTERISTIC_READ.equals(characteristicUuid)) {
@@ -115,7 +114,7 @@ public class GoTennaGattCallback extends BluetoothGattCallback {
                     characteristicWrite = characteristic;
                     Timber.d("Processed write characteristic %s", characteristic.toString());
                 } else {
-                    Timber.e("Found unknown characteristic: %s", characteristic.toString());
+                    Timber.e("Found unknown characteristic: %s", characteristicUuid.toString());
                 }
             }
         }
