@@ -64,6 +64,11 @@ public class AppModule {
         return new GoTennaScannerProvider(context);
     }
 
+    /**
+     * Connection holder for referencing all current connections.
+     *
+     * @return a configured holder
+     */
     @Provides
     @Singleton
     IConnectionHolder providesConnectionHolder() {

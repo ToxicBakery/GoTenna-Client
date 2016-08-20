@@ -23,7 +23,8 @@ public class ScanResultViewHolder extends BindedViewHolder<ScanResultCompat> imp
     /**
      * Create the holder from the inflated view.
      *
-     * @param itemView inflated scan result view
+     * @param itemView          inflated scan result view
+     * @param itemClickListener callback for sending selected models
      */
     public ScanResultViewHolder(View itemView,
                                 IItemClickListener<ScanResultCompat> itemClickListener) {

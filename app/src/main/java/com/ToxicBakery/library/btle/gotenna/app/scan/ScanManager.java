@@ -70,6 +70,9 @@ public class ScanManager implements IScanCallbackRegistration {
         }
     }
 
+    /**
+     * Stop scanning and clear stored results.
+     */
     @MainThread
     public void stop() {
         if (isScanning()) {

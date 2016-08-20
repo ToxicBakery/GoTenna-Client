@@ -65,8 +65,9 @@ public class ConnectActivityPresenter extends Presenter<ConnectActivity> {
                     disconnect();
 
                     ConnectActivity activity = getView();
-                    if (activity != null)
+                    if (activity != null) {
                         activity.finish();
+                    }
                 } else {
                     connect();
                 }

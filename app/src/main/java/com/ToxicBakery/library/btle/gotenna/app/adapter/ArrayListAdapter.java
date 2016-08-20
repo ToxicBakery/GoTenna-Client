@@ -125,6 +125,11 @@ public abstract class ArrayListAdapter<M, H extends BindedViewHolder<M>>
      */
     public interface IItemClickListener<M> {
 
+        /**
+         * Callback for selection of an item in a display list.
+         *
+         * @param item bound item on view
+         */
         void onItemClicked(M item);
 
     }
