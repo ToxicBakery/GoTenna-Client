@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * Device characteristic identifiers.
  */
-public final class Characteristics {
+public final class GoTennaCharacteristics {
 
     /**
      * Keep alive
@@ -31,7 +31,7 @@ public final class Characteristics {
     public static final UUID UUID_CHARACTERISTIC_READ
             = UUID.fromString("f0abb20b-ebfa-f96f-28da-076c35a521db");
 
-    private Characteristics() {
+    private GoTennaCharacteristics() {
     }
 
 }
