@@ -22,10 +22,10 @@ import java.util.UUID;
 
 import timber.log.Timber;
 
-import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_KEEP_ALIVE;
-import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_PROTOCOL_REVISION;
-import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_READ;
-import static com.ToxicBakery.library.btle.gotenna.Characteristics.CHARACTERISTIC_WRITE;
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.UUID_CHARACTERISTIC_KEEP_ALIVE;
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.UUID_CHARACTERISTIC_PROTOCOL_REVISION;
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.UUID_CHARACTERISTIC_READ;
+import static com.ToxicBakery.library.btle.gotenna.Characteristics.UUID_CHARACTERISTIC_WRITE;
 
 /**
  * Callback implementation for handling state.
@@ -98,18 +98,18 @@ public class GoTennaGattCallback extends BluetoothGattCallback {
         for (BluetoothGattService gattService : gattServices) {
             for (BluetoothGattCharacteristic characteristic : gattService.getCharacteristics()) {
                 UUID characteristicUuid = characteristic.getUuid();
-                if (CHARACTERISTIC_KEEP_ALIVE.equals(characteristicUuid)) {
+                if (UUID_CHARACTERISTIC_KEEP_ALIVE.equals(characteristicUuid)) {
                     gatt.setCharacteristicNotification(characteristic, true);
                     characteristicKeepAlive = characteristic;
                     Timber.d("Processed keep alive characteristic %s", characteristic.toString());
-                } else if (CHARACTERISTIC_PROTOCOL_REVISION.equals(characteristicUuid)) {
+                } else if (UUID_CHARACTERISTIC_PROTOCOL_REVISION.equals(characteristicUuid)) {
                     characteristicProtocolRev = characteristic;
                     Timber.d("Processed protocol rev characteristic %s", characteristic.toString());
-                } else if (CHARACTERISTIC_READ.equals(characteristicUuid)) {
+                } else if (UUID_CHARACTERISTIC_READ.equals(characteristicUuid)) {
                     gatt.setCharacteristicNotification(characteristic, true);
                     characteristicRead = characteristic;
                     Timber.d("Processed read characteristic %s", characteristic.toString());
-                } else if (CHARACTERISTIC_WRITE.equals(characteristicUuid)) {
+                } else if (UUID_CHARACTERISTIC_WRITE.equals(characteristicUuid)) {
                     gatt.setCharacteristicNotification(characteristic, true);
                     characteristicWrite = characteristic;
                     Timber.d("Processed write characteristic %s", characteristic.toString());
@@ -138,7 +138,7 @@ public class GoTennaGattCallback extends BluetoothGattCallback {
     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         super.onCharacteristicRead(gatt, characteristic, status);
 
-        if (characteristic.getUuid().equals(CHARACTERISTIC_PROTOCOL_REVISION)) {
+        if (characteristic.getUuid().equals(UUID_CHARACTERISTIC_PROTOCOL_REVISION)) {
             protocolRevision = characteristic.getStringValue(0);
             Timber.d("Protocol revision determined to be %s", protocolRevision);
             setNotifyOrIndicateOnCharacteristic(gatt, characteristicRead);
